@@ -112,10 +112,7 @@ function getLinearEquationRoot(a, b) {
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
     var num = ((x1*x2+y1*y2)/(Math.sqrt(Math.pow((x1+y1),2)))*(Math.sqrt(Math.pow((x2+y2),2))));
-    if (num < 0)
-    return -Math.acos(num);
-    else
-        return Math.acos(num);
+    return (num<0)?-Math.acos(num):Math.acos(num);
 }
 
 /**
@@ -232,7 +229,6 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-    //throw new Error('Not implemented');
     if(typeof value === 'number' || parseInt(value)+2 > parseInt(value))
         return value;
     else if(typeof def === 'number')

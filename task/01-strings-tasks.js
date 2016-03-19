@@ -115,8 +115,8 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    var str = new Array(count + 1).join(value);
-    return str.slice();}
+    return new Array(count + 1).join(value).slice();
+}
 
 /**
  * Remove the first occurrence of string inside another string
@@ -273,8 +273,16 @@ function isString(value) {
  */
 
 function getCardId(value) {
-    throw new Error('Not implemented');
+    //throw new Error('Not implemented');
+    var arr = [
+        'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
+        'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
+        'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
+        'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
+    ];
+    return arr.indexOf(value);
 }
+
 
 
 module.exports = {
