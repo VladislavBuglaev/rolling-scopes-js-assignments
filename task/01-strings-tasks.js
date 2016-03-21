@@ -42,7 +42,7 @@ function getStringLength(value) {
 }
 
 /**
- * Returns the result of string tepmlate and given parameters firstName and lastName.
+ * Returns the result of string template and given parameters firstName and lastName.
  * Please do not use concatenation, use template string :
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
  *
@@ -61,8 +61,7 @@ function getStringFromTemplate(firstName, lastName) {
 /**
  * Extracts a name from template string 'Hello, First_Name Last_Name!'.
  *
- * @param {string} firstName
- * @param {string} lastName
+ * @param {string} value
  * @return {string}
  *
  * @example
@@ -70,7 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    return value.substring(7, value.length - 1);
+    return value.slice(7,-1);
 }
 
 
@@ -85,7 +84,7 @@ function extractNameFromTemplate(value) {
  *   'cat'       => 'c'
  */
 function getFirstChar(value) {
-    return value.substring(0, 1);
+    return value[0];
 }
 
 /**
@@ -100,7 +99,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-    return value.replace(/(^\s+|\s+$)/g,'');
+    return value.trim();
 }
 
 /**
@@ -115,7 +114,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    return new Array(count + 1).join(value).slice();
+    return value.repeat(count);
 }
 
 /**
@@ -146,7 +145,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    return str.substring(1, str.length - 1);
+    return str.slice(1,-1);
 }
 
 
@@ -202,9 +201,9 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    var str1 = new Array(width-1).join('─');
-    var str2 = new Array(width-1).join(' ');
-    var str3 = new Array(height-1).join(`\n│${str2}│`);
+    var str1 = '─'.repeat(width-2);
+    var str2 = ' '.repeat(width-2);
+    var str3 = `\n│${str2}│`.repeat(height-2);
     return  `┌${str1}┐${str3}\n└${str1}┘\n`;
 }
 
@@ -225,8 +224,12 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
+    const charsInAlfovit = 26;
+    const rotation = 13;
+    const Z = 90;
+    const z = 122;
     return str.replace(/[a-zA-Z]/g,function(str){
-        return String.fromCharCode((str<="Z"?90:122)>=(str=str.charCodeAt(0)+13)?str:str-26);});
+        return String.fromCharCode((str<="Z"?Z:z)>=(str=str.charCodeAt(0)+rotation)?str:str-charsInAlfovit);});
 }
 
 /**
@@ -243,7 +246,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    return Boolean(typeof value === 'string' || value instanceof String );
+    return typeof value === 'string' || value instanceof String;
 }
 
 
@@ -273,7 +276,6 @@ function isString(value) {
  */
 
 function getCardId(value) {
-    //throw new Error('Not implemented');
     var arr = [
         'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
         'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',

@@ -60,7 +60,7 @@ describe('01-strings-tasks', function() {
         assert.equal('ABCDEFGHIJKLMNOPQRSTUVWXYZ', tasks.convertToUpperCase('abcdefghijklmnopqrstuvwxyz'));
     });
 
-    it.optional('extractEmails should convert all chars from specified string into upper case', function() {
+    it.optional('extractEmails should extract emails from string list delimeted by semicolons', function() {
         assert.deepEqual(
             ['angus.young@gmail.com', 'brian.johnson@hotmail.com', 'bon.scott@yahoo.com'],
             tasks.extractEmails('angus.young@gmail.com;brian.johnson@hotmail.com;bon.scott@yahoo.com')
@@ -92,7 +92,7 @@ describe('01-strings-tasks', function() {
         );
     });
 
-    it.optional('encodeToRot13 should remove all specified values from a string', function() {
+    it.optional('encodeToRot13 should encode-decode string using ROT13 algorithm', function() {
         assert.equal('uryyb', tasks.encodeToRot13('hello'));
         assert.equal('Jul qvq gur puvpxra pebff gur ebnq?', tasks.encodeToRot13('Why did the chicken cross the road?'));
         assert.equal('To get to the other side!', tasks.encodeToRot13('Gb trg gb gur bgure fvqr!'));

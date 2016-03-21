@@ -73,7 +73,7 @@ function getAverage(value1, value2) {
  *   (-5,0) (10,-10) => 18.027756377319946
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow((x2-x1),2)+Math.pow((y2-y1),2));
+    return Math.hypot((x2-x1),(y2-y1));
 }
 
 /**
@@ -105,14 +105,13 @@ function getLinearEquationRoot(a, b) {
  *
  * @example:
  *   (1,0) (0,1)     => π/2
- *   (0,1) (0,-1)    => -π
+ *   (0,1) (0,-1)    => π
  *   (0,-1) (1,0)    => π/2
  *   (0,1) (0,1)     => 0
  *   (0,1) (1,2)     => 0
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
-    var num = ((x1*x2+y1*y2)/(Math.sqrt(Math.pow((x1+y1),2)))*(Math.sqrt(Math.pow((x2+y2),2))));
-    return (num<0)?-Math.acos(num):Math.acos(num);
+    return Math.acos(((x1*x2+y1*y2)/(Math.hypot(x1, y1)*Math.hypot(x2, y2))));
 }
 
 /**
@@ -161,7 +160,7 @@ function parseNumberFromString(value) {
  *   1,2,3   => 3.741657386773941
  */
 function getParallelipidedDiagonal(a,b,c) {
-    return Math.sqrt(Math.pow(a, 2)+Math.pow(b, 2)+Math.pow(c, 2));
+    return Math.hypot(a, b, c);
 }
 
 /**
@@ -179,10 +178,11 @@ function getParallelipidedDiagonal(a,b,c) {
  *   1678, 0  => 1678
  *   1678, 1  => 1680
  *   1678, 2  => 1700
- *   1678, 3  => 1000
+ *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-    return (Math.round(num / Math.pow(10, pow)) * Math.pow(10, pow));
+    const powerOfTen =  Math.pow(10, pow);
+    return (Math.round(num / powerOfTen) *powerOfTen);
 }
 
 /**
@@ -200,15 +200,11 @@ function roundToPowerOfTen(num, pow) {
  *   11 => true
  *   12 => false
  *   16 => false
- *   17 => false
+ *   17 => true
  */
 function isPrime(n) {
-    var i;
-    if(n==1)
-        return false;
-    for(i=2; i<=Math.sqrt(n); i++){
-        if(n%i==0)
-            return false;
+    for(let i=2; i<=Math.sqrt(n); i++){
+        if(n%i==0) return false;
     }
     return true;
 }
@@ -229,10 +225,7 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-    if(typeof value === 'number' || parseInt(value)+2 > parseInt(value))
-        return value;
-    else if(typeof def === 'number')
-    return def;
+    return +value || def;;
 }
 
 module.exports = {
@@ -245,6 +238,7 @@ module.exports = {
     getLastDigit: getLastDigit,
     parseNumberFromString: parseNumberFromString,
     getParallelipidedDiagonal: getParallelipidedDiagonal,
+    roundToPowerOfTen: roundToPowerOfTen,
     isPrime: isPrime,
     toNumber: toNumber
 };

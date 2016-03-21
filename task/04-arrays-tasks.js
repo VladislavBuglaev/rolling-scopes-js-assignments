@@ -38,9 +38,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-   return new Array(len).fill().map((element, index) => {
-      return 2 * index+1
-   });
+   return Array.from({ length: len}, (v, k) => k*2+1);
 }
 
 
@@ -72,9 +70,7 @@ function doubleArray(arr) {
  *    [] => [] 
  */
 function getArrayOfPositives(arr) {
-   return arr.filter((number)=> {
-      return number > 0;
-   });
+   return arr.filter(number => number > 0);
 }
 
 /**
@@ -89,9 +85,7 @@ function getArrayOfPositives(arr) {
  *    [ 'cat, 'dog', 'raccon' ] => [ 'cat', 'dog', 'racoon' ]
  */
 function getArrayOfStrings(arr) {
-   return arr.filter((element)=> {
-      return typeof element === 'string';
-   });
+   return arr.filter(element => typeof element === 'string');
 }
 
 /**
@@ -108,10 +102,7 @@ function getArrayOfStrings(arr) {
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
 function removeFalsyValues(arr) {
-   return arr.filter((element)=>{
-      if(element != ![] || typeof element == 'string')
-         return element;
-   });
+   return arr.filter(element=> element);
 }
 
 /**
@@ -125,9 +116,7 @@ function removeFalsyValues(arr) {
  *    [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]  => [ 'A', 'B', 'C', 'D', 'E', 'F', 'G' ]
  */
 function getUpperCaseStrings(arr) {
-   return arr.map((element)=> {
-      return element.toUpperCase();
-   });
+   return arr.map(element=>element.toUpperCase());
 }
 
 
@@ -142,9 +131,7 @@ function getUpperCaseStrings(arr) {
  *    [ 'angular', 'react', 'ember' ] => [ 7, 5, 5 ]
  */
 function getStringsLength(arr) {
-   return arr.map((element)=> {
-      return element.length;
-   });
+   return arr.map(element=>element.length);
 }
 
 /**
@@ -228,9 +215,7 @@ function toCsvText(arr) {
  *   [ 10, 100, -1 ]      => [ 100, 10000, 1 ]
  */
 function toArrayOfSquares(arr) {
-   return arr.map((element)=>{
-      return element*element;
-   });
+   return arr.map(element=>element*element);
 }
 
 
@@ -249,13 +234,8 @@ function toArrayOfSquares(arr) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
 function getMovingSum(arr) {
-   var ar = [];
-   var amount = arr.reduce((sum, index)=> {
-      ar.push(sum);
-      return sum + index;
-   });
-   ar.push(amount);
-   return ar;
+   var sum =0;
+   return arr.map(element=>sum=sum+element)
 }
 
 /**
@@ -269,12 +249,8 @@ function getMovingSum(arr) {
  * [ 'a', 'b', 'c' , null ]  => [ "b", null ]
  * [ "a" ] => []
  */
-//bug
 function getSecondItems(arr) {
-   return arr.filter((element, index)=>{
-      if(index%2==1)
-      return true;
-   });
+   return arr.filter((element, index) => index % 2 == 1 );
 }
 
 
@@ -296,8 +272,7 @@ function propagateItemsByPositionIndex(arr) {
    return arr.map((element, index)=>{
      var array = new Array(index+1);
      return array.fill(element)
-   }).reduce((element, index)=> {
-      return element.concat(index); }, []);
+   }).reduce((element, index)=> element.concat(index), []);
 }
 
 
@@ -334,9 +309,7 @@ function get3TopItems(arr) {
  *   [ null, 1, 'elephant' ] => 1
  */
 function getPositivesCount(arr) {
-   return arr.filter((number)=>{
-      return number > 0;
-   }).length;
+   return arr.reduce((element1, element2)=> element1+(element2>0), 0);
 }
  
 /** 
@@ -353,7 +326,6 @@ function getPositivesCount(arr) {
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
 function sortDigitNamesByNumericOrder(arr) {
-   //throw new Error('Not implemented');
    var element = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
    return arr.sort((a, b) => {
      return element.indexOf(a) - element.indexOf(b);
@@ -374,9 +346,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-   return arr.reduce((sum, current)=> {
-      return sum + current
-   },0);
+   return arr.reduce((sum, current)=>sum + current,0);
 }
  
 /** 
@@ -391,13 +361,8 @@ function getItemsSum(arr) {
  *  [ -1, 'false', null, 0 ] => 2
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
-//НУЖЕН РЕФАКТОРИНГ
 function getFalsyValuesCount(arr) {
-  var  arr1 = arr.filter((element)=>{
-     if (typeof element != ![])
-      return element;
-   });
-   return arr.length - arr1.length;
+   return arr.reduce((element1, element2)=>element1+(new Boolean(element2) == false),0);
 }
 
 /**
@@ -415,10 +380,7 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-   return arr.filter((element)=>{
-      if(element===item)
-      return true
-   }).length;
+   return arr.reduce((element1, element2)=>element1+(element2===item),0);
 }
 
 /**
@@ -488,11 +450,12 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]   
  */
 function getIdentityMatrix(n) {
-   return new Array(n).fill().map((element, index)=>{
-       element = new Array(n).fill(0);
-      element[index] = 1;
-          return element;
-      })
+   return Array.from({ length: n}, (v, k) => {
+      v = new Array(n).fill(0);
+      v[k] = 1;
+      return v;
+   });
+
 }
 
 /**
@@ -509,9 +472,7 @@ function getIdentityMatrix(n) {
  *     3  3,  => [ 3 ]
  */
 function getIntervalArray(start, end) {
-   return new Array(end-start+1).fill(start).map((element, index)=>{
-      return element+index;
-   })
+   return Array.from({ length: end-start+1}, (v, k) => start+k);
 }
 
 /**
@@ -526,10 +487,8 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-   return arr.filter((element, index)=>{
-      if(arr.indexOf(element) === index)
-      return true;
-   })
+   var set = new Set(arr);
+   return [...set];
 }
 
 /**
@@ -564,7 +523,13 @@ function distinct(arr) {
  */
 function group(array, keySelector, valueSelector) {
    var map = new Map();
-   return map.set(array);
+   array.map((element) => {
+      var key = keySelector(element);
+      var value = valueSelector(element);
+      if (map.has(key)) map.get(key).push(value);
+      else map.set(key, [value]);
+   });
+   return map;
 }
 
 

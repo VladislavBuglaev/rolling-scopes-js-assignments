@@ -57,10 +57,9 @@ function parseDataFromIso8601(value) {
  */
 function isLeapYear(date) {
     var dat = date.getFullYear();
-    if(dat%4!=0)return false;
-    else if(dat%100!=0)return true;
-    else if(dat%400!=0)return false;
-    else return true;
+    return (dat%4===0)
+        && (dat%100!==0)
+        || (dat%400===0);
 }
 
 
@@ -80,15 +79,12 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-    var date = new Date();
-    var dateInHours = new Date();
-    dateInHours.setHours(((endDate.getHours()-startDate.getHours())+3), (endDate.getMinutes()-startDate.getMinutes()),(endDate.getSeconds()-startDate.getSeconds()
-    ), (endDate.getMilliseconds()-startDate.getMilliseconds()));
-    date = dateInHours.toISOString();
-    return date.substring(11, date.length - 1);}
+    return new Date(endDate - startDate).toISOString().slice(11,-1);
+}
 
 
-/**
+
+    /**
  * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
  * If you have problem with solution please read: https://en.wikipedia.org/wiki/Clock_angle_problem
  * 
@@ -101,16 +97,20 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
+    //Нужен рефакторинг
 function angleBetweenClockHands(date) {
-    var d = Math.abs(((date.getHours()-3)+date.getMinutes()/60)*30-6*date.getMinutes())
-    if(date.getHours()-3 == 15 && date.getMinutes()==0  || date.getHours()-3 == 9 && date.getMinutes()==0)
+        const hour = date.getUTCHours() % 12;
+        const minutes = date.getUTCMinutes();
+    var result = Math.abs(((hour)+minutes/60)*30-6*minutes)
+    if(hour == 15 && minutes==0  || hour == 9 && minutes==0)
         return Math.PI/2;
-    else if (date.getHours()-3 == 18)
+    else if (hour == 18)
         return Math.PI;
-    else if(d<=180)
-        return (d*Math.PI)/180;
-    else if(d > 180 && d < 360){
-        return ((360-d)*Math.PI)/180}}
+    else if(result<=180)
+        return (result*Math.PI)/180;
+    else if(result > 180 && result < 360){
+        return ((360-result)*Math.PI)/180}
+    }
 
 
 module.exports = {
