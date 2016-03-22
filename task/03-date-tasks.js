@@ -102,14 +102,11 @@ function angleBetweenClockHands(date) {
         const hour = date.getUTCHours() % 12;
         const minutes = date.getUTCMinutes();
     var result = Math.abs(((hour)+minutes/60)*30-6*minutes)
-    if(hour == 15 && minutes==0  || hour == 9 && minutes==0)
-        return Math.PI/2;
-    else if (hour == 18)
-        return Math.PI;
-    else if(result<=180)
-        return (result*Math.PI)/180;
-    else if(result > 180 && result < 360){
-        return ((360-result)*Math.PI)/180}
+
+    if(hour == 15 && minutes==0  || hour == 9 && minutes==0) return Math.PI/2;
+    else if (hour == 18) return Math.PI;
+    else if(result<=180) return (result*Math.PI)/180;
+    else if(result > 180 && result < 360) return ((360-result)*Math.PI)/180
     }
 
 

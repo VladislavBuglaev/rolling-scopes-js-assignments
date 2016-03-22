@@ -290,9 +290,7 @@ function propagateItemsByPositionIndex(arr) {
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
 function get3TopItems(arr) {
-   return arr.sort((a, b)=> {
-      return b - a;
-   }).splice(0, 3);
+   return arr.sort((a, b)=>{ return b - a}).splice(0, 3);
 }
  
  
@@ -424,11 +422,7 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  */
 function sortCitiesArray(arr) {
-   return arr.sort(function(a, b){
-      if(a.country === b.country )
-         return a.city > b.city;
-      return a.country > b.country;
-   })
+   return arr.sort((a,b)=> (a.country).localeCompare(b.country)||(a.city).localeCompare(b.city));
 }
 
 /**
@@ -450,10 +444,10 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]   
  */
 function getIdentityMatrix(n) {
-   return Array.from({ length: n}, (v, k) => {
-      v = new Array(n).fill(0);
-      v[k] = 1;
-      return v;
+   return Array.from({ length: n}, (element, index) => {
+      element = new Array(n).fill(0);
+      element[index] = 1;
+      return element;
    });
 
 }
@@ -472,7 +466,7 @@ function getIdentityMatrix(n) {
  *     3  3,  => [ 3 ]
  */
 function getIntervalArray(start, end) {
-   return Array.from({ length: end-start+1}, (v, k) => start+k);
+   return Array.from({ length: end-start+1}, (element, index) => start+index);
 }
 
 /**
@@ -545,7 +539,7 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-   return arr.map(childrenSelector).join(',').split(',');
+   return arr.reduce((element, index)=> element.concat(childrenSelector(index)), []);
 }
 
 
@@ -562,9 +556,7 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-   indexes.map((element) => {
-     return arr = arr[element];
-   });
+   indexes.map((element) => arr = arr[element]);
    return arr;
 }
 
@@ -587,17 +579,14 @@ function getElementByIndexes(arr, indexes) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]   
  * 
  */
+//переделать в один map
 function swapHeadAndTail(arr) {
    var alen = arr.length;
    var a = arr.length;
-   if(arr.length===1)
-   return arr.splice(0);
    var head = arr.splice(0, alen/2);
    var tail;
-   if(a%2 !== 0)
-   tail = arr.splice(1, alen);
-   else
-   tail = arr.splice(0, alen);
+   if(a%2 !== 0) tail = arr.splice(1, alen);
+   else tail = arr.splice(0, alen);
    return tail.concat(arr).concat(head);
 }
 
