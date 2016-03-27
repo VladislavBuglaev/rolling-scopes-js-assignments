@@ -279,7 +279,28 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    var str = ccn.toString();
+    var result = [];
+    for (var i = 0; i < str.length; i++){
+        result += str[i];
+    }
+
+    var len=result.length;
+    var index;
+    var res = [];
+
+    if(len%2===0)
+        index = 0;
+    else
+        index = 1;
+        for(let i=0;i<len;i++)
+        if (i%2===index) {
+            if (result[i] * 2 > 9) res.push(result[i]*2 - 9);
+            else res.push(result[i] * 2);
+        }
+        else res.push(parseInt(result[i]));
+        var sum = res.reduce((sum, current)=>sum + current,0);
+        return (sum%10===0);
 }
 
 
@@ -445,7 +466,15 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    var result;
+    for (let i = 0; i < pathes[0].length; i++ ) {
+        for (let j = 1; j < pathes.length; j++) {
+            if (pathes[0].charAt(i) !== pathes[j].charAt(i)) {
+                result = pathes[0].slice(0, i);
+                return result.slice(0, result.lastIndexOf('/')+1);
+            }
+        }
+    }
 }
 
 
@@ -516,7 +545,12 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+   for(let i=0; i<3;i++)
+   if(position[i][0]===position[i][1]&& position[i][1]===position[i][2] && position[i][0]!=undefined)return position[i][0];
+    else if(position[0][i] === position[1][i] && position[1][i] === position[2][i] && position[0][i] !== undefined) return position[0][i];
+    else if(position[0][0]===position[1][1] && position[1][1]===position[2][2] && position[0][0]!=undefined) return position[0][0];
+   else if(position[0][2]===position[1][1] && position[1][1]===position[2][0] && position[0][2]!=undefined) return position[0][2];
+
 }
 
 

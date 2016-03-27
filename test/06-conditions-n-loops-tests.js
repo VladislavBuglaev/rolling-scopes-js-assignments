@@ -407,7 +407,8 @@ describe('06-conditions-n-loops-tasks', function() {
             {
                 pathes: ['/web/images/image1.png', '/web/images/image2.png'],
                 expected: '/web/images/'
-            },{
+            },
+            {
                 pathes: ['/web/assets/style.css', '/web/scripts/app.js',  'home/setting.conf'],
                 expected: ''
             },{
