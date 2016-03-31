@@ -289,10 +289,9 @@ function isCreditCardNumber(ccn) {
     var index;
     var res = [];
 
-    if(len%2===0)
-        index = 0;
-    else
-        index = 1;
+    if(len%2===0) index = 0;
+    else index = 1;
+    
         for(let i=0;i<len;i++)
         if (i%2===index) {
             if (result[i] * 2 > 9) res.push(result[i]*2 - 9);

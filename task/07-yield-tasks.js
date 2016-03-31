@@ -33,7 +33,17 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    var index = 99;
+    while(index > 2){
+        yield `${index} bottles of beer on the wall, ${index} bottles of beer.`;
+        yield `Take one down and pass it around, ${--index} bottles of beer on the wall.`;
+    }
+    yield '2 bottles of beer on the wall, 2 bottles of beer.';
+    yield 'Take one down and pass it around, 1 bottle of beer on the wall.';
+    yield '1 bottle of beer on the wall, 1 bottle of beer.';
+    yield 'Take one down and pass it around, no more bottles of beer on the wall.';
+    yield 'No more bottles of beer on the wall, no more bottles of beer.';
+    yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
 }
 
 
@@ -47,7 +57,15 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    var num1 = 0;
+    var num2 = 1;
+    var result;
+    while (1){
+        result = num1;
+        num1 = num2;
+        num2 = result + num2;
+        yield result;
+    }
 }
 
 
@@ -82,7 +100,15 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
+    var s=[root];
+    while (s.length>0) {
+        var v = s.pop();
+        yield v;
+        if (v.children) {
+            for (var edges of v.children.reverse())
+                s.push(edges)
+        }
+    }
 }
 
 
@@ -108,7 +134,15 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+    var s=[root];
+    while (s.length>0) {
+        var v = s.shift();
+        yield v;
+        if (v.children) {
+            for (var edges of v.children)
+                s.push(edges)
+        }
+    }
 }
 
 
@@ -126,7 +160,14 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+    var iterator1=source1();
+    var iterator2=source2();
+    var arr = [];
+    arr.push(iterator1.next().value);
+    arr.push(iterator2.next().value);
+    //console.log(arr)
+    arr.sort((a, b)=>{ return a - b});
+    yield * arr;
 }
 
 
