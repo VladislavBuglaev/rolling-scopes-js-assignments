@@ -165,7 +165,6 @@ function* mergeSortedSequences(source1, source2) {
     var arr = [];
     arr.push(iterator1.next().value);
     arr.push(iterator2.next().value);
-    //console.log(arr)
     arr.sort((a, b)=>{ return a - b});
     yield * arr;
 }
