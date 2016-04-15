@@ -65,10 +65,10 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-    throw new Error('Not implemented');
-    /*return function (x) {
-
-    }*/
+    var arr = [].slice.call(arguments);
+    return (x)=>{
+        return arr.map((element, index) => element*Math.pow(x, (arr.length-(++index)))).reduce((pValue, cValue)=> pValue+cValue);
+    }
 }
 
 
