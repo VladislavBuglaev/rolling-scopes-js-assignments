@@ -19,45 +19,40 @@
 
 function createCompassPoints() {
     var sides = ['N', 'E', 'S', 'W']; // use array of cardinal directions only!
-    var result = [];
-    //N E S W
-    for (let i = 0, j = 0; i < 360, j < sides.length; i += 90, j++) {
-        result.push({ abbreviation: sides[j], azimuth: i });
-    }
-    //NE SE SW NW
-    for (let i = 45, j = 0; i < 360; i += 90, j++) {
-        if (j % 2 === 0) result.push({ abbreviation: sides[j] + sides[j + 1], azimuth: i });else if (j + 1 === sides.length) result.push({ abbreviation: sides[0] + sides[j], azimuth: i });else result.push({ abbreviation: sides[j + 1] + sides[j], azimuth: i });
-    }
-    //NbE EbS SbW WbN
-    for (let i = 11.25, j = 0; i < 360; i += 90, j++) {
-        if (j + 1 === sides.length) result.push({ abbreviation: `${ sides[j] }b${ sides[0] }`, azimuth: i });else result.push({ abbreviation: `${ sides[j] }b${ sides[j + 1] }`, azimuth: i });
-    }
-    //NEbE SEbS SWbW NWbN
-    for (let i = 56.25, j = 0; i < 360; i += 90, j++) {
-        if (j % 2 === 0) result.push({ abbreviation: sides[j] + sides[j + 1] + 'b' + sides[j + 1], azimuth: i });else if (j + 1 === sides.length) result.push({ abbreviation: sides[0] + sides[j] + 'b' + sides[0], azimuth: i });else result.push({ abbreviation: sides[j + 1] + sides[j] + 'b' + sides[j + 1], azimuth: i });
-    }
-    //NNE ENE ESE SSE SSW WSW WNW NNW
-    for (let i = 22.5, j = 0; j < sides.length; i += 45, j++) {
-        if (j % 2 === 0) {
-            result.push({ abbreviation: sides[j] + sides[j] + sides[j + 1], azimuth: i });
-            result.push({ abbreviation: sides[j + 1] + sides[j] + sides[j + 1], azimuth: i += 45 });
-        } else if (j + 1 === sides.length) {
-            result.push({ abbreviation: sides[j] + sides[0] + sides[j], azimuth: i });
-            result.push({ abbreviation: sides[0] + sides[0] + sides[j], azimuth: i += 45 });
-        } else {
-            result.push({ abbreviation: sides[j] + sides[j + 1] + sides[j], azimuth: i });
-            result.push({ abbreviation: sides[j + 1] + sides[j + 1] + sides[j], azimuth: i += 45 });
+
+    let result = [];
+    var dev1,
+        dev,
+        azim = 360,
+        az,
+        deg,
+        count;
+
+    for (var i = 0; i < 32; i++) {
+
+        az = i * azim / 32;
+        deg = az;
+
+        count = 0;
+        while (deg >= 90) {
+            deg = deg - 90;
+            count++;
         }
+
+        if (count > 2) dev = sides[0];else dev = sides[count + 1];
+
+        if (sides[count] === sides[0] || sides[count] === sides[2]) dev1 = sides[count] + dev;else dev1 = dev + sides[count];
+
+        if (deg === 0) result.push({ abbreviation: sides[count], azimuth: az });
+        if (deg === 11.25) result.push({ abbreviation: sides[count] + 'b' + dev, azimuth: az });
+        if (deg === 22.5) result.push({ abbreviation: sides[count] + dev1, azimuth: az });
+        if (deg === 33.75) result.push({ abbreviation: dev1 + 'b' + sides[count], azimuth: az });
+        if (deg === 45) result.push({ abbreviation: dev1, azimuth: az });
+        if (deg === 56.25) result.push({ abbreviation: dev1 + 'b' + dev, azimuth: az });
+        if (deg === 67.5) result.push({ abbreviation: dev + dev1, azimuth: az });
+        if (deg === 78.75) result.push({ abbreviation: dev + 'b' + sides[count], azimuth: az });
     }
-    //NEbN SEbE SWbS NWbW
-    for (let i = 33.75, j = 0; j < sides.length; i += 90, j++) {
-        if (j % 2 === 0) result.push({ abbreviation: sides[j] + sides[j + 1] + 'b' + sides[j], azimuth: i });else if (j + 1 === sides.length) result.push({ abbreviation: sides[0] + sides[j] + 'b' + sides[j], azimuth: i });else result.push({ abbreviation: sides[j + 1] + sides[j] + 'b' + sides[j], azimuth: i });
-    }
-    //EbN SbE WbS NbW
-    for (let i = 78.75, j = 0; j < sides.length; i += 90, j++) {
-        if (j + 1 === sides.length) result.push({ abbreviation: sides[0] + 'b' + sides[j], azimuth: i });else result.push({ abbreviation: sides[j + 1] + 'b' + sides[j], azimuth: i });
-    }
-    return result.sort((a, b) => a.azimuth - b.azimuth);
+    return result;
 }
 
 /**
@@ -130,17 +125,20 @@ function getZigZagMatrix(n) {
         element[index] = 0;
         return element;
     });
-    var i = 0;
-    var j = 0;
-
-    for (let k = 0; k < n * n; k++) {
-        arr[i][j] = k;
-        if ((i + j) % 2 === 0) {
-            if (j < n - 1) j++;else i += 2;
-            if (i > 0) i--;
+    function overallCode(v1, v2) {
+        if (v1 < n) v1++;else v2 += 2;
+        if (v2 > 1) v2--;
+    }
+    var i = 1,
+        j = 1;
+    for (var k = 0; k < n * n; k++) {
+        arr[i - 1][j - 1] = k;
+        if ((i + j) % 2 == 0) {
+            if (j < n) j++;else i += 2;
+            if (i > 1) i--;
         } else {
-            if (i < n - 1) i++;else j += 2;
-            if (j > 0) j--;
+            if (i < n) i++;else j += 2;
+            if (j > 1) j--;
         }
     }
     return arr;

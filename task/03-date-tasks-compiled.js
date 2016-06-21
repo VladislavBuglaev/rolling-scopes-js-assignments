@@ -8,7 +8,6 @@
  *                                                                                          *
  ********************************************************************************************/
 
-
 /**
  * Parses a rfc2822 string date representation into date value
  * For rfc2822 date specification refer to : http://tools.ietf.org/html/rfc2822#page-14
@@ -21,6 +20,7 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
+
 function parseDataFromRfc2822(value) {
     return new Date(value);
 }
@@ -40,7 +40,6 @@ function parseDataFromIso8601(value) {
     return new Date(value);
 }
 
-
 /**
  * Returns true if specified date is leap year and false otherwise
  * Please find algorithm here: https://en.wikipedia.org/wiki/Leap_year#Algorithm
@@ -57,11 +56,8 @@ function parseDataFromIso8601(value) {
  */
 function isLeapYear(date) {
     var dat = date.getFullYear();
-    return (dat%4===0)
-        && (dat%100!==0)
-        || (dat%400===0);
+    return dat % 4 === 0 && dat % 100 !== 0 || dat % 400 === 0;
 }
-
 
 /**
  * Returns the string represention of the timespan between two dates.
@@ -79,36 +75,33 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-    return new Date(endDate - startDate).toISOString().slice(11,-1);
+    return new Date(endDate - startDate).toISOString().slice(11, -1);
 }
 
-
-
-    /**
- * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
- * If you have problem with solution please read: https://en.wikipedia.org/wiki/Clock_angle_problem
- * 
- * @param {date} date
- * @return {number}
- *
- * @example:
- *    Date.UTC(2016,2,5, 0, 0) => 0
- *    Date.UTC(2016,3,5, 3, 0) => Math.PI/2
- *    Date.UTC(2016,3,5,18, 0) => Math.PI
- *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
- */
-    //Нужен рефакторинг
+/**
+* Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
+* If you have problem with solution please read: https://en.wikipedia.org/wiki/Clock_angle_problem
+* 
+* @param {date} date
+* @return {number}
+*
+* @example:
+*    Date.UTC(2016,2,5, 0, 0) => 0
+*    Date.UTC(2016,3,5, 3, 0) => Math.PI/2
+*    Date.UTC(2016,3,5,18, 0) => Math.PI
+*    Date.UTC(2016,3,5,21, 0) => Math.PI/2
+*/
+//Нужен рефакторинг
 function angleBetweenClockHands(date) {
-        const hour = date.getUTCHours() % 12;
-        const minutes = date.getUTCMinutes();
-    var result = Math.abs(((hour)+minutes/60)*30-6*minutes)
+    const hour = date.getUTCHours() % 12;
+    const minutes = date.getUTCMinutes();
+    var result = Math.abs((hour + minutes / 60) * 30 - 6 * minutes);
 
-    if(hour == 15 && minutes==0  || hour == 9 && minutes==0) return Math.PI/2;
+    if (hour == 15 && minutes == 0 || hour == 9 && minutes == 0) return Math.PI / 2;
     if (hour == 18) return Math.PI;
-    if(result<=180) return (result*Math.PI)/180;
-    if(result > 180 && result < 360) return ((360-result)*Math.PI)/180;
+    if (result <= 180) return result * Math.PI / 180;
+    if (result > 180 && result < 360) return (360 - result) * Math.PI / 180;
 }
-
 
 module.exports = {
     parseDataFromRfc2822: parseDataFromRfc2822,
@@ -117,3 +110,5 @@ module.exports = {
     timeSpanToString: timeSpanToString,
     angleBetweenClockHands: angleBetweenClockHands
 };
+
+//# sourceMappingURL=03-date-tasks-compiled.js.map

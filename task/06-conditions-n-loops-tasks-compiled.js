@@ -30,7 +30,10 @@
  */
 
 function getFizzBuzz(num) {
-    if (num % 3 === 0 && num % 5 === 0) return 'FizzBuzz';else if (num % 3 === 0) return 'Fizz';else if (num % 5 === 0) return 'Buzz';else return num;
+    if (num % 15 === 0) return 'FizzBuzz';
+    if (num % 3 === 0) return 'Fizz';
+    if (num % 5 === 0) return 'Buzz';
+    return num;
 }
 
 /**
@@ -211,6 +214,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
+    //return str.split('').reverse().join('');
     var result = [];
     for (var i = str.length - 1; i >= 0; i--) {
         result += str[i];
@@ -272,9 +276,10 @@ function isCreditCardNumber(ccn) {
 
     if (len % 2 === 0) index = 0;else index = 1;
 
-    for (let i = 0; i < len; i++) if (i % 2 === index) {
-        if (result[i] * 2 > 9) res.push(result[i] * 2 - 9);else res.push(result[i] * 2);
-    } else res.push(parseInt(result[i]));
+    for (let i = 0; i < len; i++) {
+
+        if (i % 2 !== index) res.push(parseInt(result[i]));else if (result[i] * 2 > 9) res.push(result[i] * 2 - 9);else res.push(result[i] * 2);
+    }
     var sum = res.reduce((sum, current) => sum + current, 0);
     return sum % 10 === 0;
 }
@@ -325,18 +330,15 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
+    var brackets = "[]{}()<>";
     var stack = [];
-    var open = { '{': '}', '[': ']', '(': ')', '<': '>' };
-    var closed = { '}': true, ']': true, ')': true, '>': true };
+    var char, position;
+    for (var i = 0; char = str[i]; i++) {
+        position = brackets.indexOf(char);
 
-    for (var i = 0; i < str.length; i++) {
-        var chr = str[i];
-        if (open[chr]) {
-            stack.push(chr);
-        } else if (closed[chr]) {
-            if (open[stack.pop()] !== chr) return false;
-        }
+        if (position % 2 === 0) stack.push(position + 1);else if (stack.length === 0 || stack.pop() !== position) return false;
     }
+
     return stack.length === 0;
 }
 
@@ -380,17 +382,22 @@ function timespanToHumanString(startDate, endDate) {
     var minutes = ms / 60000;
     var seconds = ms / 1000;
     //года
-    if (days > 345 && days < 545) return `a year ago`;else if (days > 546) return `${ endDate.getFullYear() - startDate.getFullYear() } years ago`;
+    if (days > 345 && days < 545) return `a year ago`;
+    if (days > 546) return `${ endDate.getFullYear() - startDate.getFullYear() } years ago`;
     //месяцы
-    else if (days > 25 && days <= 45) return 'a month ago';else if (days >= 45 && days <= 345) return `${ Math.round(month - rounding) } months ago`;
-        //дни
-        else if (hours > 22 && hours <= 36) return 'a day ago';else if (hours >= 36 && hours <= 25 * 24) return `${ Math.round(days - rounding) } days ago`;
-            //часы
-            else if (minutes > 45 && minutes <= 90) return 'an hour ago';else if (minutes >= 90 && hours <= 22) return `${ Math.round(hours - rounding) } hours ago`;
-                //минуты
-                else if (seconds > 45 && seconds <= 90) return 'a minute ago';else if (seconds >= 90 && seconds <= 45 * 60) return `${ Math.round(minutes - rounding) } minutes ago`;
-                    //секунды
-                    else if (seconds >= 0 && seconds <= 45) return 'a few seconds ago';
+    if (days > 25 && days <= 45) return 'a month ago';
+    if (days >= 45 && days <= 345) return `${ Math.round(month - rounding) } months ago`;
+    //дни
+    if (hours > 22 && hours <= 36) return 'a day ago';
+    if (hours >= 36 && hours <= 25 * 24) return `${ Math.round(days - rounding) } days ago`;
+    //часы
+    if (minutes > 45 && minutes <= 90) return 'an hour ago';
+    if (minutes >= 90 && hours <= 22) return `${ Math.round(hours - rounding) } hours ago`;
+    //минуты
+    if (seconds > 45 && seconds <= 90) return 'a minute ago';
+    if (seconds >= 90 && seconds <= 45 * 60) return `${ Math.round(minutes - rounding) } minutes ago`;
+    //секунды
+    if (seconds >= 0 && seconds <= 45) return 'a few seconds ago';
 }
 
 /**
@@ -506,7 +513,15 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    for (let i = 0; i < 3; i++) if (position[i][0] === position[i][1] && position[i][1] === position[i][2] && position[i][0] != undefined) return position[i][0];else if (position[0][i] === position[1][i] && position[1][i] === position[2][i] && position[0][i] !== undefined) return position[0][i];else if (position[0][0] === position[1][1] && position[1][1] === position[2][2] && position[0][0] != undefined) return position[0][0];else if (position[0][2] === position[1][1] && position[1][1] === position[2][0] && position[0][2] != undefined) return position[0][2];
+    function checkCombination(v1, v2, v3) {
+        return v1 === v2 && v2 === v3 && v1 != undefined;
+    }
+    for (let i = 0; i < 3; i++) {
+        if (checkCombination(position[i][0], position[i][1], position[i][2])) return position[i][0];
+        if (checkCombination(position[0][i], position[1][i], position[2][i])) return position[0][i];
+        if (checkCombination(position[0][0], position[1][1], position[2][2])) return position[0][0];
+        if (checkCombination(position[0][2], position[1][1], position[2][0])) return position[0][2];
+    }
 }
 
 module.exports = {

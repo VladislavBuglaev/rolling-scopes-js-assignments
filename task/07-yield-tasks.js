@@ -104,10 +104,10 @@ function* depthTraversalTree(root) {
     while (s.length>0) {
         var v = s.pop();
         yield v;
-        if (v.children) {
+        if (!v.children) continue;
             for (var edges of v.children.reverse())
-                s.push(edges)
-        }
+                s.push(edges);
+
     }
 }
 
@@ -138,10 +138,9 @@ function* breadthTraversalTree(root) {
     while (s.length>0) {
         var v = s.shift();
         yield v;
-        if (v.children) {
+        if (!v.children) continue;
             for (var edges of v.children)
-                s.push(edges)
-        }
+                s.push(edges);
     }
 }
 
